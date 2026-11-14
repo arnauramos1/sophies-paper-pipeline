@@ -1,0 +1,7 @@
+# results live on tachyon, never in the repo
+Data/
+*.mat
+*.png
+*.pdf
+*.asv
+~$*
