@@ -103,6 +103,35 @@ Only ~25 files are copied. Arnau's pipeline is 273 files; the rest is his imagin
 and figure code, which this project does not use. Copying those would create a second copy of code under active
 development for no benefit.
 
+## Imaging readiness — corrected 14 Nov 2026
+
+An earlier note in the project docs said EXTRACT "was never run" on the batch15 alprazolam mice and that a neural
+comparison would need 13 movies of ~930 MB reprocessed. **That was wrong, and it was wrong because only Arnau's
+folders had been checked.** His `Data\Analysis\batch15\EPM\` holds just the cropped videos. Sophie's
+`Data\Analysis\Miniscope\<batch>\EPM\` holds her preprocessing output.
+
+| | vehicle | DOI | alprazolam | TAB |
+|---|---|---|---|---|
+| `Included Imaging = Yes` | 12 | 8 | 5 | **0** |
+| motion-corrected (`.mmap` + `preprocessing_done.json`) | 12 | 8 | 5 | 0 |
+| **cells extracted** | **0** | **0** | **0** | 0 |
+
+All 25 imaging-viable mice across A11, S3 and A15 are **already motion-corrected** — each session folder carries a
+CaImAn-style `movie_ds2_els__*.mmap` of 3.6–4.9 GB (downsampled ×2, elastic motion correction), plus
+`headOrientation.csv`, bad-frame repairs and a pipeline log. The expensive step is done.
+
+**What is missing is cell extraction, for every mouse in the cohort including vehicle and DOI.** Her
+`Cells extracted` column is blank for all 66, and her `cnmfe_seed_search` and `settings_search` folders show she
+is still tuning parameters rather than having run a final extraction.
+
+So the open decision is not "reprocess movies" but **which extraction route**: her CaImAn/CNMF-E stack, which
+consumes the `.mmap` files directly, or Arnau's EXTRACT + cell-sorting + cross-day alignment chain, which expects
+a different input format and would need either a conversion or his own motion correction re-run. That choice also
+decides whether his sorter (`predictions_v3b`) and alignment code can be reused at all.
+
+Mice with imaging but not preprocessed (e.g. 9900, 9901, 9907, 9908, 9898 in the alprazolam arm) have only
+`cropped_video.avi` and `timeStamps.csv`, consistent with their `Included Imaging = No`.
+
 ## Data that is read but not owned
 
 Sophie's pose summaries and raw behaviour are read **read-only** from her scratch area
