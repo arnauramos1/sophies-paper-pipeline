@@ -41,10 +41,39 @@ experiment, and their presence here does not put them in his papers: of the 66, 
 | **`pose` (default)** | Sophie's own Python pose pipeline: 30 measures per mouse incl. protected/unprotected head dips, transition matrices, entropy. Exists for every mouse in both 5-min and 15-min cuts. | her `Data\Analysis\Behavior\<batch>\EPM\EPM_PoseEstimation_Summary_*.csv` (read-only) |
 | `dlc` | Arnau's DLC + MATLAB route (`EPM_dlcBehavior`), available for 34 of the 66 | `Data\Analysis\SophiesPaper\1_behaviour\` |
 
-**The two do not agree and must never be mixed in one figure.** For 9567 the 15-min `pctOpen` is 11.6 % by her
-pose pipeline and 18.3 % by Arnau's DLC route — different pose estimation (she uses snout plus centroid, and
-reports `pctSnoutCentroidDisagree`) and different zone geometry. Her pipeline is the default here because it is
-her paper, it covers every mouse, and it is richer. The DLC route is kept only as an independent cross-check.
+### How much they differ, measured
+
+All 34 mice that have both, 15-min cut vs the full 690 s DLC session:
+
+| measure | DLC (Arnau) | pose (Sophie) | ratio | Spearman |
+|---|---|---|---|---|
+| open-arm % | 12.67 | 9.28 | 0.73 | **0.96** |
+| closed-arm % | 78.83 | 77.94 | 0.99 | **0.95** |
+| centre % | 6.86 | 10.21 | **1.49** | **0.95** |
+| open entries | 10.0 | 10.5 | 1.05 | 0.86 |
+| head dips | 12.5 | 26.5 | **2.12** | 0.83 |
+| distance (cm) | 1775 | 2803 | **1.58** | **0.96** |
+| mean speed | 2.61 | 3.17 | 1.21 | **0.96** |
+
+**The tracking agrees; the scoring convention does not.** Spearman 0.83–0.96 on every measure means the two
+pipelines rank the mice almost identically, and tracking quality is comparable (her missing data 0.14 %, DLC
+tracked 98.0 %). The systematic offsets come from two things:
+
+1. **The centre/open boundary.** Her pipeline puts less time in open (×0.73) and more in centre (×1.49) while
+   closed is unchanged (×0.99). Open and centre trading off with closed untouched means her centre zone is
+   effectively larger, or her open-arm criterion requires the animal further out.
+2. **Which body point.** Distance is 1.58× longer and head dips 2.12× more numerous, because the snout travels
+   much further than the body centre and crosses the arm edge more often. Her `pctSnoutCentroidDisagree` is a
+   median 16 % (range 4–37 %), so she tracks both and knows they diverge.
+
+**Consequences.** Relative comparisons are safe in either pipeline — both independently find DOI anxiolytic
+(P = 0.015 on 6v6 by DLC, P = 0.0004 on 13v21 by pose) and both find the vehicle batch effect (open-arm
+7.2 vs 12.7 %, P = 0.029 by DLC; 5.97 vs 11.61 %, P = 0.023 by pose). Two different pose methods agreeing is
+why that batch effect should be taken seriously. **Absolute values are not interchangeable** and must never be
+pooled or cross-quoted in one panel; head dips and distance are the worst offenders.
+
+Her pipeline is the default here because it is her paper, it covers every mouse, and it is richer. The DLC route
+is kept only as an independent cross-check.
 
 ## Layout
 
